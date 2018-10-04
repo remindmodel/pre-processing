@@ -1,6 +1,6 @@
 #!/bin/bash
 
-#SBATCH --qos=short
+#SBATCH --qos=priority
 #SBATCH --job-name=rem-preprocessing
 #SBATCH --output=log-%j.out
 #SBATCH --mail-type=END
