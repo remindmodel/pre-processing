@@ -6,7 +6,7 @@ cfg <- list()
 cfg$regionmapping <- "regionmappingH12.csv"
 
 #### Current input data revision (<mainrevision>.<subrevision>) ####
-cfg$revision <- 5.804
+cfg$revision <- 5.806
 
 retrieveData(model="REMIND",regionmapping=cfg$regionmapping,rev=cfg$revision)
  
