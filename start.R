@@ -1,12 +1,12 @@
 library(moinput)
 
-cfg <- list()
+#### list of region mappings to create input data ####
+regionmappinglist <- c("regionmappingH12.csv","regionmapping_16_EU5.csv","regionmapping_22_EU11.csv")
 
-#### region mapping ####
-cfg$regionmapping <- "regionmappingH12.csv"
 
 #### Current input data revision (<mainrevision>.<subrevision>) ####
-cfg$revision <- 5.810
+revision <- 5.810
 
-retrieveData(model="REMIND",regionmapping=cfg$regionmapping,rev=cfg$revision)
- 
+for (regionmapping in regionmappinglist){
+   retrieveData(model="REMIND",regionmapping=regionmapping,rev=revision)
+}
