@@ -6,7 +6,7 @@ regionmappinglist <- c('regionmappingREMIND.csv',
 
 
 #### Current input data revision (<mainrevision>.<subrevision>) ####
-revision <- 5.849
+revision <- 5.8491
 
 for (regionmapping in regionmappinglist){
    retrieveData(model="REMIND",regionmapping=regionmapping,rev=revision)
