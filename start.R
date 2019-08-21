@@ -6,7 +6,7 @@ regionmappinglist <- c('regionmappingREMIND.csv',
 
 
 #### Current input data revision (<mainrevision>.<subrevision>) ####
-revision <- 5.9072
+revision <- 5.914
 
 sessionInfo()
 
