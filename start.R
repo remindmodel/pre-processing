@@ -1,4 +1,5 @@
 library(moinput)
+library(mrvalidation)
 
 #### List of region mappings to create input data ####
 regionmappinglist <- c("regionmappingH12.csv",
@@ -9,7 +10,7 @@ regionmappinglist <- c("regionmappingH12.csv",
 
 
 #### Current input data revision (<mainrevision>.<subrevision>) ####
-revision <- 5.925
+revision <- 5.929
 
 sessionInfo()
 
