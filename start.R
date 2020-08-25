@@ -11,7 +11,7 @@ regionmappinglist <- c("regionmappingH12.csv",
 
 
 #### Current input data revision (<mainrevision>.<subrevision>) ####
-revision <- 5.951
+revision <- 5.954
 
 sessionInfo()
 
