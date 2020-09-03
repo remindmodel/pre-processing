@@ -6,12 +6,11 @@ library(mrvalidation)
 regionmappinglist <- c("regionmappingH12.csv",
                        "regionmappingREMIND.csv",
                        "regionmapping_21_EU11.csv",
-                       "regionmapping_22_EU11.csv",
                        "regionmappingH12_Aus.csv")
 
 
 #### Current input data revision (<mainrevision>.<subrevision>) ####
-revision <- 5.954
+revision <- 5.956
 
 sessionInfo()
 
