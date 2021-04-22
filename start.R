@@ -4,9 +4,9 @@ library(mrvalidation)
 library(edgeTransport)
 
 #### List of region mappings to create input data ####
-regionmappinglist <- c("regionmapping_21_EU11.csv",
-		       "regionmappingH12.csv",
+regionmappinglist <- c("regionmappingH12.csv",
                        "regionmappingREMIND.csv",
+		       "regionmapping_21_EU11.csv",
                        "regionmappingH12_Aus.csv")
 
 
