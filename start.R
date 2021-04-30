@@ -11,7 +11,7 @@ regionmappinglist <- c("regionmappingH12.csv",
 
 
 #### Current input data revision (<mainrevision>.<subrevision>) ####
-revision <- 5.968
+revision <- 6.00   # should be a number with two decimal places for production
 
 sessionInfo()
 
