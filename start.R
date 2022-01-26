@@ -14,7 +14,7 @@ mappings <- tribble(~regionmapping,              ~extramapping,
 
 
 # Current input data revision (<mainrevision>.<subrevision>) ####
-revision <- "6.278-david"   # should be a number with two decimal places for production
+revision <- "6.278"   # should be a number with two decimal places for production
 
 sessionInfo()
 
