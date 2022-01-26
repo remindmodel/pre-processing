@@ -10,7 +10,7 @@ library(tibble)
 
 mappings <- tribble(~regionmapping,              ~extramapping,
                     "regionmappingH12.csv",      "",
-                    "regionmapping_21_EU11.csv", "missingH12.csv")
+                    "regionmapping_21_EU11.csv", "")
 
 
 # Current input data revision (<mainrevision>.<subrevision>) ####
@@ -24,5 +24,5 @@ for (i in 1:nrow(mappings)){
   retrieveData(model = "REMIND", regionmapping = mappings$regionmapping[i], rev = revision)
   
   # Produce historical data for regionmappings and extramappings
-  retrieveData(model="ValidationREMIND", regionmapping = mappings$regionmapping[i], extramapping = mappings$extramapping[i], rev = revision)
+  retrieveData(model="VALIDATIONREMIND", regionmapping = mappings$regionmapping[i], extramapping = mappings$extramapping[i], rev = revision)
 }
