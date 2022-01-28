@@ -2,27 +2,25 @@ library(mrremind)
 library(mrcommons)
 library(mrvalidation)
 library(edgeTransport)
-library(tibble)
 
-# Data frame with the names of the files containing the ISO-to-region mapping to which the data should be aggregated.
-# First column "regionmapping": region mapping used for the aggregatin of the input data
-# Second column "extramapping": mapping with regions to which only the historic data are aggregated in addition to the normal region mapping
+# List with the names of the files containing the ISO-to-region mapping to which the data should be aggregated. 
+# Each list element is a named vector with:
+# - the first element "regionmapping": region mapping used for the aggregation of the input data
+# - the second element "extramappings_historic": mapping with regions to which only the historic data are aggregated in addition to the normal region mapping
 
-mappings <- tribble(~regionmapping,              ~extramapping,
-                    "regionmappingH12.csv",      "",
-                    "regionmapping_21_EU11.csv", "")
-
+mappinglist <- list(c(regionmapping = "regionmappingH12.csv",      extramappings_historic = ""),
+                    c(regionmapping = "regionmapping_21_EU11.csv", extramappings_historic = ""))
 
 # Current input data revision (<mainrevision>.<subrevision>) ####
 revision <- "6.278"   # should be a number with two decimal places for production
 
 sessionInfo()
 
-for (i in 1:nrow(mappings)){
+for (mapping in mappinglist){
 
-  # Produce input data for all regionmappings (ignore extramappings)  
-  retrieveData(model = "REMIND", regionmapping = mappings$regionmapping[i], rev = revision)
+  # Produce input data for all regionmappings (ignore extramappings_historic)  
+  retrieveData(model = "REMIND", regionmapping = mapping[["regionmapping"]], rev = revision)
   
-  # Produce historical data for regionmappings and extramappings
-  retrieveData(model="VALIDATIONREMIND", regionmapping = mappings$regionmapping[i], extramapping = mappings$extramapping[i], rev = revision)
+  # Produce historical data for regionmappings and extramappings_historic
+  retrieveData(model="VALIDATIONREMIND", regionmapping = mapping[["regionmapping"]], extramappings = mapping[["extramappings_historic"]], rev = revision)
 }
