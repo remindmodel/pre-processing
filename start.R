@@ -21,6 +21,7 @@ for (mapping in mappinglist){
   # Produce input data for all regionmappings (ignore extramappings_historic)  
   retrieveData(model = "REMIND", regionmapping = mapping[["regionmapping"]], rev = revision)
   
-  # Produce historical data for regionmappings and extramappings_historic
+  # Produce historical data for regionmappings and extramappings_historic.
+  # The region hash for the historical data file will be only based on the mapping specified in "regionmapping".
   retrieveData(model="VALIDATIONREMIND", regionmapping = mapping[["regionmapping"]], extramappings = mapping[["extramappings_historic"]], rev = revision)
 }
