@@ -12,7 +12,7 @@ mappinglist <- list(c(regionmapping = "regionmappingH12.csv",      extramappings
                     c(regionmapping = "regionmapping_21_EU11.csv", extramappings_historic = ""))
 
 # Current input data revision (<mainrevision>.<subrevision>) ####
-revision <- "6.296"   # should be a number with two decimal places for production
+revision <- "6.298"   # should be a number with two decimal places for production
 
 sessionInfo()
 
