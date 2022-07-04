@@ -14,4 +14,9 @@ sleep 1  # give ssh time to set up th proxy before starting anything else
 export https_proxy="socks5://127.0.0.1:1080"
 export SSL_CERT_FILE="/p/projects/rd3mod/ssl/ca-bundle.pem_2022-02-08"
 
+# The standard temporary directory location /tmp is pretty small on the compute nodes and
+# local storage is not available there.
+# Therefore, we use a temporary directory on the cluster file system.
+export TMPDIR="/p/projects/rd3mod/inputdata/tmp/"
+
 Rscript start.R
