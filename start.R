@@ -9,7 +9,7 @@ library(edgeTransport)
 # - the second element "extramappings_historic": mapping with regions to which only the historic data are aggregated in addition to the normal region mapping
 
 mappinglist <- list(c(regionmapping = "regionmappingH12.csv",      extramappings_historic = ""),
-                    c(regionmapping = "regionmapping_21_EU11.csv", extramappings_historic = ""))
+                    c(regionmapping = "regionmapping_21_EU11.csv", extramappings_historic = "extramapping_EU27.csv"))
 
 # Current input data revision (<mainrevision>.<subrevision>) ####
 revision <- "6.311"   # should be a number with two decimal places for production
