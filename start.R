@@ -12,16 +12,23 @@ mappinglist <- list(c(regionmapping = "regionmappingH12.csv",      extramappings
                     c(regionmapping = "regionmapping_21_EU11.csv", extramappings_historic = "extramapping_EU27.csv"))
 
 # Current input data revision (<mainrevision>.<subrevision>) ####
-revision <- "6.311"   # should be a number with two decimal places for production
+revision <- "6.314"   # should be a number with two decimal places for production
+dev <- ""             # development suffix
+cachetype <- "def"
+renv = TRUE
 
 sessionInfo()
 
 for (mapping in mappinglist){
 
   # Produce input data for all regionmappings (ignore extramappings_historic)  
-  retrieveData(model = "REMIND", regionmapping = mapping[["regionmapping"]], rev = revision, cachetype = "def")
+  retrieveData(model = "REMIND", regionmapping = mapping[["regionmapping"]], 
+               rev = revision, dev = dev, cachetype = cachetype, renv = renv)
   
   # Produce historical data for regionmappings and extramappings_historic.
   # The region hash for the historical data file will be only based on the mapping specified in "regionmapping".
-  retrieveData(model="VALIDATIONREMIND", regionmapping = mapping[["regionmapping"]], extramappings = mapping[["extramappings_historic"]], rev = revision, cachetype = "def")
+  retrieveData(model = "VALIDATIONREMIND", 
+               regionmapping = mapping[["regionmapping"]], 
+               extramappings = mapping[["extramappings_historic"]], 
+               rev = revision, dev = dev, cachetype = cachetype, renv = renv)
 }
