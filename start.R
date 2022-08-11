@@ -15,7 +15,7 @@ mappinglist <- list(c(regionmapping = "regionmappingH12.csv",      extramappings
 revision <- "6.314"   # should be a number with two decimal places for production
 dev <- ""             # development suffix
 cachetype <- "def"
-renv = TRUE
+renv = FALSE
 
 sessionInfo()
 
