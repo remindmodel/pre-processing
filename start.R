@@ -28,7 +28,7 @@ for (mapping in mappinglist) {
                renv = renv)
   
   # Produce historical data for regionmappings and extramappings_historic.
-  # The region hash for the historical data file will be only based on the mapping specified in "regionmapping".
+  # The region hash of the historical data file will concatenated from the individual hashes of regionmapping and extramappings_historic.
   retrieveData(model = "VALIDATIONREMIND", 
                regionmapping = mapping[["regionmapping"]], 
                extramappings = mapping[["extramappings_historic"]], 
