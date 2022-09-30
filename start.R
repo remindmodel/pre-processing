@@ -16,7 +16,7 @@ revision <- "6.322"   # should be a number with two decimal places for productio
 dev <- ""             # development suffix
 cachetype <- "def"
 puc <- identical(dev, '')
-renv <- FALSE
+renv <- TRUE
 
 sessionInfo()
 
