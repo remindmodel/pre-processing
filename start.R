@@ -12,7 +12,7 @@ mappinglist <- list(c(regionmapping = "regionmappingH12.csv",      extramappings
                     c(regionmapping = "regionmapping_21_EU11.csv", extramappings_historic = "extramapping_EU27.csv"))
 
 # Current input data revision (<mainrevision>.<subrevision>) ####
-revision <- "6.322"   # should be a number with two decimal places for production
+revision <- "6.323"   # should be a number with two decimal places for production
 dev <- ""             # development suffix
 cachetype <- "def"
 puc <- identical(dev, '')
