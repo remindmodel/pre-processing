@@ -20,6 +20,9 @@ renv <- TRUE
 
 sessionInfo()
 
+# disable size limit on magpie objects
+options(magclass_sizeLimit = -1)
+
 for (mapping in mappinglist) {
 
   # Produce input data for all regionmappings (ignore extramappings_historic)  
