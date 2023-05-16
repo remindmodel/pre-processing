@@ -1,5 +1,5 @@
 
-start_preprocessing <- function(cfg) {
+run_preprocessing <- function(cfg) {
 
   library(mrremind)
   library(mrcommons)
@@ -30,5 +30,4 @@ start_preprocessing <- function(cfg) {
                  renv = cfg$renv)
   }
 }
-
-start_preprocessing(cfg = "default.cfg")
+run_preprocessing(cfg = "default.cfg")
