@@ -30,4 +30,4 @@ run_preprocessing <- function(cfg) {
                  renv = cfg$renv)
   }
 }
-run_preprocessing(cfg = "default.cfg")
+

@@ -1,11 +1,19 @@
 
 
-# sleep 1  # give ssh time to set up th proxy before starting anything else
+# initialize cfg.file
+ cfgFile <- NULL
 
-#############################################################################
-#source(\"run_preprocessing.R\")
 
-#run_preprocessing("default.cfg")
+# load command-line arguments
+argv <- commandArgs(trailingOnly = TRUE)
+# check if user provided any unknown arguments or cfg files that do not exist
+if (length(argv) > 0) {
+  file_exists <- file.exists(argv)
+  if (sum(file_exists) > 1) stop("You provided more than one file, submit_preprocessing.R can only handle one.")
+  if (!all(file_exists)) stop("Unknown parameter provided: ", paste(argv[!file_exists], collapse = ", "))
+  # set cfg file to not known parameter where the file actually exists
+  cfgFile <- argv[[1]]
+}
 
 sbatchCommand <- paste0("sbatch",
                          " --qos=priority",
@@ -24,9 +32,9 @@ sbatchCommand <- paste0("sbatch",
                             # Therefore, we use a temporary directory on the cluster file system.
                                    " TMPDIR=/p/projects/rd3mod/inputdata/tmp/",
                             # run preprocessing
-                                   " Rscript run_preprocessing.R \""
+                                   " Rscript start.R ", cfgFile, "\""
                         )
-
+message("Submitting " , sbatchCommand, " to cluster")
 system(sbatchCommand)
 
 
