@@ -14,6 +14,11 @@ run_preprocessing <- function(cfg) {
   # read in configuration
   cfg <- gms::check_config(cfg, modulepath = NULL)
   
+  # use cachefolder from configuration file if exists
+  if (!is.null(cfg$cachefolder)) {
+    madrat::setConfig(cachefolder = cfg$cachefolder)
+  }
+  
   for (mapping in cfg$mappinglist) {
   
     # Produce input data for all regionmappings (ignore extramappings_historic)  
