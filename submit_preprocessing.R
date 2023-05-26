@@ -18,6 +18,8 @@ if (length(argv) > 0) {
 sbatchCommand <- paste0("sbatch",
                          " --qos=priority",
                          " --job-name=rem-preprocessing",
+                         " --nodes=1",
+                         " --tasks-per-node=1",
                          " --output=log-%j.out",
                          " --mail-type=END",
                          " --mem=32000",
