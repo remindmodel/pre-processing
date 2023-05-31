@@ -20,7 +20,7 @@ sbatchCommand <- paste0("sbatch",
                          " --job-name=rem-preprocessing",
                          " --nodes=1",
                          " --tasks-per-node=1",
-                         " --output=date --iso`.out",
+                         " --output=log-`date --iso`.out",
                          " --mail-type=END",
                          " --mem=32000",
                   # During preprocessing we need internet access (e.g. for generating the renv).
