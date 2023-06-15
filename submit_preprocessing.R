@@ -1,4 +1,4 @@
-
+#!/usr/bin/env Rscript
 
 # initialize cfg.file
  cfgFile <- NULL
@@ -38,7 +38,3 @@ sbatchCommand <- paste0("sbatch",
                         )
 message("Submitting " , sbatchCommand, " to cluster")
 system(sbatchCommand)
-
-
-
-
