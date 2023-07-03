@@ -1,5 +1,15 @@
 #!/usr/bin/env Rscript
 
+if (   'TRUE' != Sys.getenv('ignoreRenvUpdates')
+    && !getOption("autoRenvUpdates", FALSE)
+    && !is.null(piamenv::showUpdates())) {
+  message("Consider updating with `piamenv::updateRenv()`.")
+  Sys.sleep(1)
+}
+
+installedPackages <- piamenv::fixDeps(ask = "TRUE" != Sys.getenv("autoRenvFixDeps"))
+piamenv::stopIfLoaded(names(installedPackages))
+
 # initialize cfg.file
  cfgFile <- NULL
 
@@ -29,10 +39,6 @@ sbatchCommand <- paste0("sbatch",
                          " --wrap=\"(ssh -N -D 1080 $USER@login01 &);",
                                    " https_proxy=socks5://127.0.0.1:1080",
                                    " SSL_CERT_FILE=/p/projects/rd3mod/ssl/ca-bundle.pem_2022-02-08",
-                            # The standard temporary directory location /tmp is pretty small on the compute nodes and
-                            # local storage is not available there.
-                            # Therefore, we use a temporary directory on the cluster file system.
-                                   " TMPDIR=/p/projects/rd3mod/inputdata/tmp/",
                             # run preprocessing
                                    " Rscript start.R ", cfgFile, "\""
                         )
