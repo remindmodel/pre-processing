@@ -1,4 +1,14 @@
+if (Sys.getenv("SLURM_JOB_ID", unset = "") == "") {
+  if (   'TRUE' != Sys.getenv('ignoreRenvUpdates')
+      && !getOption("autoRenvUpdates", FALSE)
+      && !is.null(piamenv::showUpdates())) {
+    message("Consider updating with `piamenv::updateRenv()`.")
+    Sys.sleep(1)
+  }
 
+  installedPackages <- piamenv::fixDeps(ask = "TRUE" != Sys.getenv("autoRenvFixDeps"))
+  piamenv::stopIfLoaded(names(installedPackages))
+}
 
 source("run_preprocessing.R")
 
@@ -17,11 +27,4 @@ if (length(argv) > 0) {
 }
 
 
-run_preprocessing(cfgFile) 
-
-
-
-
-
-
-
+run_preprocessing(cfgFile)
