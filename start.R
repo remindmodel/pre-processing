@@ -10,21 +10,52 @@ if (Sys.getenv("SLURM_JOB_ID", unset = "") == "") {
   piamenv::stopIfLoaded(names(installedPackages))
 }
 
-source("run_preprocessing.R")
+library(mrremind)
+library(mrcommons)
+library(mrvalidation)
+library(edgeTransport)
+
+print(sessionInfo())
+
+# disable size limit on magpie objects
+options(magclass_sizeLimit = -1)
 
 #initialize cfg.file
-cfgFile <- "config/default.cfg"
+cfg <- "config/default.cfg"
 
 # load command-line arguments
 argv <- commandArgs(trailingOnly = TRUE)
+
 # check if user provided any unknown arguments or cfg files that do not exist
 if (length(argv) > 0) {
   file_exists <- file.exists(argv)
   if (sum(file_exists) > 1) stop("You provided more than one file, submit_preprocessing.R can only handle one.")
   if (!all(file_exists)) stop("Unknown parameter provided: ", paste(argv[!file_exists], collapse = ", "))
   # set cfg file to not known parameter where the file actually exists
-  cfgFile <- argv[[1]]
+  cfg <- argv[[1]]
 }
 
+# read in configuration
+cfg <- gms::check_config(cfg, modulepath = NULL)
 
-run_preprocessing(cfgFile)
+# use cachefolder from configuration file if exists
+if (!is.null(cfg$cachefolder)) {
+  madrat::setConfig(cachefolder = cfg$cachefolder)
+}
+
+for (mapping in cfg$mappinglist) {
+
+  # Produce input data for all regionmappings (ignore extramappings_historic)
+  retrieveData(model = "REMIND", regionmapping = mapping[["regionmapping"]],
+               rev = cfg$revision, dev = cfg$dev, cachetype = cfg$cachetype,
+               renv = cfg$renv)
+
+  # Produce historical data for regionmappings and extramappings_historic.
+  # The region hash of the historical data file will concatenated from the 
+  # individual hashes of regionmapping and extramappings_historic.
+  retrieveData(model = "VALIDATIONREMIND",
+               regionmapping = mapping[["regionmapping"]],
+               extramappings = mapping[["extramappings_historic"]],
+               rev = cfg$revision, dev = cfg$dev, cachetype = cfg$cachetype,
+               renv = cfg$renv)
+}
