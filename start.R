@@ -1,3 +1,5 @@
+#!/usr/bin/env Rscript
+
 if (Sys.getenv("SLURM_JOB_ID", unset = "") == "") {
   if (   'TRUE' != Sys.getenv('ignoreRenvUpdates')
       && !getOption("autoRenvUpdates", FALSE)
