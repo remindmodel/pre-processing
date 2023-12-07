@@ -1,7 +1,8 @@
 # How to run on the cluster
 
-- `Rscript submit_preprocessing.R` runs with config/default.cfg. 
 - before starting inputdata generation, you might want to update your libraries by running `make update-renv` (only pik-piam packages) or `update-renv-all` (all CRAN packages)
+- take a look at the settings being used in `config/default.cfg`
+- to start inputdata generation, run `Rscript submit_preprocessing.R`
 
 ## Settings
 
@@ -13,7 +14,21 @@ If you want to use a separate cache folder starting from scratch for your input 
 
 Note that `cfg$revision` may not include characters, e.g. `cfg$revision <- "6.607test"` won't work. If you want to test input data generation for some local changes, set `cfg$dev`, e.g. `cfg$dev <- "my-test"`.
 
+## Running with with local branches
+
+You sometimes need to test inputdata generation with some unmerged changes in one or more R libraries. In order to do so:
+- make sure that you create a dev version number when building the R library you are working on (when `lucode2::buildLibrary` succeeds, choose option 4 `4: only for packages in development stage` to get a number consisting of four parts like `0.173.0.9001`)
+- do a git check out the version of the library you want to test on the cluster
+- open an R session in your pre-processing folder
+- install the R package from sources using renv `renv::install("/p/tmp/username/yourpackagefolder")`
+- write the installed version to your lock file by running `renv::snapshot()`
+- exit the R session and start inputdata generation
+
+Once the process started, check the beginning log file for the installed libraries and make sure that the right version of your R library is being used (i.e. the dev version number you gave it when building the library).
 
 ## Useful tools on the cluster
+
+If you need to better understand the difference between two inputdata archives, there are two tools on the cluster to help you understand which files have changed and to identify commits contributing to these changes:
+
 - `inputdata-comparedata` - Compares the content of two data archives and looks for similarities and differences. Wrapper for `madrat::compareData`. Expects paths to two input data archives
 - `inputdata-commithist` - List all git commits between two input data archives for selected input data libraries. Expects paths to two input data archives, the first must be the older one.
