@@ -1,6 +1,7 @@
 # How to run on the cluster
 
-`Rscript submit_preprocessing.R` runs with config/default.cfg. 
+- `Rscript submit_preprocessing.R` runs with config/default.cfg. 
+- before starting inputdata generation, you might want to update your libraries by running `make update-renv` (only pik-piam packages) or `update-renv-all` (all CRAN packages)
 
 ## Settings
 
