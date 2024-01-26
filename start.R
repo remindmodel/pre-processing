@@ -38,26 +38,49 @@ if (length(argv) > 0) {
 }
 
 # read in configuration
-cfg <- gms::check_config(cfg, modulepath = NULL)
+cfg <- gms::check_config(cfg, reference_file="config/APT.cfg", modulepath = NULL)
 
 # use cachefolder from configuration file if exists
 if (!is.null(cfg$cachefolder)) {
   madrat::setConfig(cachefolder = cfg$cachefolder)
 }
 
-for (mapping in cfg$mappinglist) {
+stoppedWithError <- tryCatch({
+  for (mapping in cfg$mappinglist) {
+    # Produce input data for all regionmappings (ignore extramappings_historic)
+    retrieveData(model = "REMIND", regionmapping = mapping[["regionmapping"]],
+                 rev = cfg$revision, dev = cfg$dev, cachetype = cfg$cachetype,
+                 renv = cfg$renv)
 
-  # Produce input data for all regionmappings (ignore extramappings_historic)
-  retrieveData(model = "REMIND", regionmapping = mapping[["regionmapping"]],
-               rev = cfg$revision, dev = cfg$dev, cachetype = cfg$cachetype,
-               renv = cfg$renv)
+    # Produce historical data for regionmappings and extramappings_historic.
+    # The region hash of the historical data file will concatenated from the 
+    # individual hashes of regionmapping and extramappings_historic.
+    retrieveData(model = "VALIDATIONREMIND",
+                 regionmapping = mapping[["regionmapping"]],
+                 extramappings = mapping[["extramappings_historic"]],
+                 rev = cfg$revision, dev = cfg$dev, cachetype = cfg$cachetype,
+                 renv = cfg$renv)
+  }  
+  FALSE
+}, error = function(error) {
+  print(error)
+  return(TRUE)
+})
 
-  # Produce historical data for regionmappings and extramappings_historic.
-  # The region hash of the historical data file will concatenated from the 
-  # individual hashes of regionmapping and extramappings_historic.
-  retrieveData(model = "VALIDATIONREMIND",
-               regionmapping = mapping[["regionmapping"]],
-               extramappings = mapping[["extramappings_historic"]],
-               rev = cfg$revision, dev = cfg$dev, cachetype = cfg$cachetype,
-               renv = cfg$renv)
+# If this is an APT send bot message to mattermost in case the APT produced warnings or errors
+if (isTRUE(grepl("APT", cfg$dev))) {
+  producedWarnings <- length(warnings()) > 0
+  jobid <- Sys.getenv("SLURM_JOB_ID", unset = "")
+  today <- format(Sys.time(), "%Y-%m-%d")
+  if (stoppedWithError || producedWarnings) {
+    mattermostMessage <- paste0("The remind preprocessing ",
+                                if (producedWarnings) "produced warnings",
+                                if (producedWarnings && stoppedWithError) " and ",
+                                if (stoppedWithError) "was stopped by an error.\n",
+                                "Please check the log file \`/p/projects/rd3mod/APT/preprocessing-remind/",
+                                "log-", today, "-", jobid, ".out\`")
+    writeLines(mattermostMessage, paste0("/p/projects/rd3mod/mattermost_bot/REMIND/APT-", today))
+  }
 }
+
+message(today, " APT done.\n\n")
