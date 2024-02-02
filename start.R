@@ -67,11 +67,13 @@ stoppedWithError <- tryCatch({
   return(TRUE)
 })
 
+today <- format(Sys.time(), "%Y-%m-%d")
+
 # If this is an APT send bot message to mattermost in case the APT produced warnings or errors
 if (isTRUE(grepl("APT", cfg$dev))) {
   producedWarnings <- length(warnings()) > 0
   jobid <- Sys.getenv("SLURM_JOB_ID", unset = "")
-  today <- format(Sys.time(), "%Y-%m-%d")
+  
   if (stoppedWithError || producedWarnings) {
     mattermostMessage <- paste0("The remind preprocessing ",
                                 if (producedWarnings) "produced warnings",
