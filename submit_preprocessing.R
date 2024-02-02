@@ -13,7 +13,6 @@ piamenv::stopIfLoaded(names(installedPackages))
 # initialize cfg.file
  cfgFile <- NULL
 
-
 # load command-line arguments
 argv <- commandArgs(trailingOnly = TRUE)
 # check if user provided any unknown arguments or cfg files that do not exist
@@ -25,12 +24,21 @@ if (length(argv) > 0) {
   cfgFile <- argv[[1]]
 }
 
+# read in configuration
+cfg <- gms::check_config(cfgFile, reference_file = cfgFile, modulepath = NULL)
+
+# create log folder if provided
+if (! is.null(cfg$logPath) && ! file.exists(cfg$logPath)) {
+  message("Creating folder: ", cfg$logPath)
+  dir.create(cfg$logPath, recursive = TRUE, showWarnings = FALSE)
+}
+
 sbatchCommand <- paste0("sbatch",
                          " --qos=priority",
                          " --job-name=rem-preprocessing",
                          " --nodes=1",
                          " --tasks-per-node=1",
-                         " --output=log-`date --iso`-%j.out",
+                         " --output=", paste0(c(cfg$logPath, "log-`date --iso`-%j.out"), collapse = "/"),
                          " --mail-type=END",
                          " --mem=32000",
                   # During preprocessing we need internet access (e.g. for generating the renv).

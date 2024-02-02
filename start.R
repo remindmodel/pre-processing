@@ -38,7 +38,7 @@ if (length(argv) > 0) {
 }
 
 # read in configuration
-cfg <- gms::check_config(cfg, reference_file="config/APT.cfg", modulepath = NULL)
+cfg <- gms::check_config(cfg, reference_file = cfg, modulepath = NULL)
 
 # use cachefolder from configuration file if exists
 if (!is.null(cfg$cachefolder)) {
@@ -77,8 +77,8 @@ if (isTRUE(grepl("APT", cfg$dev))) {
                                 if (producedWarnings) "produced warnings",
                                 if (producedWarnings && stoppedWithError) " and ",
                                 if (stoppedWithError) "was stopped by an error",
-                                ". Please check the log file \`/p/projects/rd3mod/APT/preprocessing-remind/",
-                                "log-", today, "-", jobid, ".out\`")
+                                ". Please check the log file \`", paste0(c("/p/projects/rd3mod/APT/preprocessing-remind", cfg$logPath), collapse = "/"),
+                                "/log-", today, "-", jobid, ".out\`")
     writeLines(mattermostMessage, paste0("/p/projects/rd3mod/mattermost_bot/REMIND/APT-", today))
   }
 }
