@@ -38,7 +38,7 @@ if (length(argv) > 0) {
 }
 
 # read in configuration
-cfg <- gms::check_config(cfg, reference_file = cfg, modulepath = NULL)
+source(cfg)
 
 # use cachefolder from configuration file if exists
 if (!is.null(cfg$cachefolder)) {

@@ -25,7 +25,7 @@ if (length(argv) > 0) {
 }
 
 # read in configuration
-cfg <- gms::check_config(cfgFile, reference_file = cfgFile, modulepath = NULL)
+source(cfgFile)
 
 # create log folder if provided
 if (! is.null(cfg$logPath) && ! file.exists(cfg$logPath)) {
