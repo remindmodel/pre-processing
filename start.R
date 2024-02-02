@@ -85,4 +85,4 @@ if (isTRUE(grepl("APT", cfg$dev))) {
   }
 }
 
-message(today, " APT done.\n\n")
+message(today, " Preprocessing done.\n\n")
