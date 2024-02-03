@@ -38,7 +38,7 @@ if (length(argv) > 0) {
 }
 
 # read in configuration
-cfg <- gms::check_config(cfg, reference_file="config/APT.cfg", modulepath = NULL)
+source(cfg)
 
 # use cachefolder from configuration file if exists
 if (!is.null(cfg$cachefolder)) {
@@ -67,20 +67,22 @@ stoppedWithError <- tryCatch({
   return(TRUE)
 })
 
+today <- format(Sys.time(), "%Y-%m-%d")
+
 # If this is an APT send bot message to mattermost in case the APT produced warnings or errors
 if (isTRUE(grepl("APT", cfg$dev))) {
   producedWarnings <- length(warnings()) > 0
   jobid <- Sys.getenv("SLURM_JOB_ID", unset = "")
-  today <- format(Sys.time(), "%Y-%m-%d")
+  
   if (stoppedWithError || producedWarnings) {
     mattermostMessage <- paste0("The remind preprocessing ",
                                 if (producedWarnings) "produced warnings",
                                 if (producedWarnings && stoppedWithError) " and ",
                                 if (stoppedWithError) "was stopped by an error",
-                                ". Please check the log file \`/p/projects/rd3mod/APT/preprocessing-remind/",
-                                "log-", today, "-", jobid, ".out\`")
+                                ". Please check the log file \`", paste0(c("/p/projects/rd3mod/APT/preprocessing-remind", cfg$logPath), collapse = "/"),
+                                "/log-", today, "-", jobid, ".out\`")
     writeLines(mattermostMessage, paste0("/p/projects/rd3mod/mattermost_bot/REMIND/APT-", today))
   }
 }
 
-message(today, " APT done.\n\n")
+message(today, " Preprocessing done.\n\n")
