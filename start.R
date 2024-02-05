@@ -67,6 +67,8 @@ stoppedWithError <- tryCatch({
   return(TRUE)
 })
 
+warnings()
+
 today <- format(Sys.time(), "%Y-%m-%d")
 
 # If this is an APT send bot message to mattermost in case the APT produced warnings or errors
