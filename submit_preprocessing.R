@@ -11,7 +11,7 @@ installedPackages <- piamenv::fixDeps(ask = "TRUE" != Sys.getenv("autoRenvFixDep
 piamenv::stopIfLoaded(names(installedPackages))
 
 # initialize cfg.file
- cfgFile <- NULL
+cfgFile <- "config/default.cfg"
 
 # load command-line arguments
 argv <- commandArgs(trailingOnly = TRUE)
