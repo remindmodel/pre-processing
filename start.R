@@ -67,8 +67,6 @@ stoppedWithError <- tryCatch({
   return(TRUE)
 })
 
-warnings()
-
 today <- format(Sys.time(), "%Y-%m-%d")
 
 # If this is an APT send bot message to mattermost in case the APT produced warnings or errors
@@ -86,5 +84,7 @@ if (isTRUE(grepl("APT", cfg$dev))) {
     writeLines(mattermostMessage, paste0("/p/projects/rd3mod/mattermost_bot/REMIND/APT-", today))
   }
 }
+
+if (stoppedWithError) stop("retrieveData stopped due to an error. Search the logfile for 'Error'")
 
 message(today, " Preprocessing done.\n\n")
