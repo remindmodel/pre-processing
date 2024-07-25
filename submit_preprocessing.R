@@ -35,6 +35,7 @@ if (! is.null(cfg$logPath) && ! file.exists(cfg$logPath)) {
 
 sbatchCommand <- paste0("sbatch",
                          " --qos=priority",
+                         " --partition=priority",
                          " --job-name=rem-preprocessing",
                          " --nodes=1",
                          " --tasks-per-node=1",
