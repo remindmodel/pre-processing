@@ -1,4 +1,4 @@
-.PHONY: help update-renv update-renv-all archive-renv start
+.PHONY: help update-renv update-renv-all archive-renv
 .DEFAULT_GOAL := help
 
 # extracts the help text and formats it nicely
