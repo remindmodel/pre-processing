@@ -1,4 +1,4 @@
-.PHONY: help update-renv update-renv-all archive-renv
+.PHONY: help update-renv update-renv-all archive-renv restore-renv
 .DEFAULT_GOAL := help
 
 # extracts the help text and formats it nicely
@@ -21,3 +21,7 @@ update-renv-all: ## Upgrade all packages (including CRAN packages) in your renv
 
 archive-renv: ## Write renv.lock to archive.
 	Rscript -e 'piamenv::archiveRenv()'
+
+restore-renv:    ## Restore renv to the state described in interactively
+                 ## selected renv.lock from the archive or a run folder.
+	Rscript -e 'piamenv::restoreRenv()'
