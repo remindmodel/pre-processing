@@ -25,3 +25,6 @@ archive-renv: ## Write renv.lock to archive.
 restore-renv:    ## Restore renv to the state described in interactively
                  ## selected renv.lock from the archive or a run folder.
 	Rscript -e 'piamenv::restoreRenv()'
+
+stow-logs:       ## Store all log-*.out files in ./archive/
+	@mkdir -p archive/ && mv -iv log-*.out archive/
