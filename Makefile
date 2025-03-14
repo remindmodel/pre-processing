@@ -19,6 +19,12 @@ update-renv-all: ## Upgrade all packages (including CRAN packages) in your renv
                  ## to the respective latest release and write renv.lock to archive.
 	Rscript -e 'renv::update(exclude = "renv"); piamenv::archiveRenv()'
 
+revert-dev-packages: ## All PIK-PIAM packages that are development versions, i.e.
+                     ## that have a non-zero fourth version number component, are
+                     ## reverted to the highest version lower than the
+                     ## development version.
+	@Rscript -e 'piamenv::revertDevelopmentVersions()'
+
 archive-renv: ## Write renv.lock to archive.
 	Rscript -e 'piamenv::archiveRenv()'
 
