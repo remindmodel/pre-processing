@@ -14,17 +14,15 @@ If you want to create input data to test your local changes, set the development
 
 The name of the generated input data archive will contain the concatenation of `revision` and `dev`. 
 
+The default settings uses the default cache system (`cfg$cachetype = "def"`), which utilizes the default cache shared by most other madrat processes on the Cluster (`/p/projects/rd3mod/inputdata/cache_1.27`).
 If you want to use an existing cache folder other than the default cache folder on the cluster, you can set it using `cfg$cachefolder = "path/to/my/cache"`. 
 If this folder is empty, you effectively start from scratch with your input data generation.
-Changing the cache folder only makes sense when the cache type is set to `def` (which is the default).
 
-The process uses the default cache system (`cfg$cachetype = "def"`), which utilizes the default cache shared by most other madrat processes on the Cluster (`/p/projects/rd3mod/inputdata/cache_1.27`).
-If you want to use a separate cache folder starting from scratch for your input data revision, set `cfg$cachetype = "rev"` in your config file.
+If you want to use a separate cache folder starting from scratch for your specific input data revision, set `cfg$cachetype = "rev"` in your config file (`cfg$cachefolder` does not have any effect in this case).
 
 ### Details
 
 Currently, the following settings are supported: 
-
 
 - `cfg$revision`
 - `cfg$dev` (development suffix)
@@ -33,7 +31,7 @@ Currently, the following settings are supported:
 - `cfg$cachefolder`
 - `cfg$mappinglist`
 
-`revision`, `dev`, `cachetype` and `renv` will be passed to `madrat::retrieveData`, please see `help(retrieveData)` for more info on these parameters.
+`revision`, `dev`, `cachetype` and `renv` will be passed to `madrat::retrieveData`. Please see the documentation of this function `help(retrieveData)` for more info on these parameters.
 `cachefolder` sets the madrat cache folder to be used on the cluster.
 `mappinglist` contains a set of regional mappings to apply for input data generation. Check to documentation in `config/default.cfg` for more information.
 
