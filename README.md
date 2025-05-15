@@ -1,5 +1,6 @@
 # How to run on the cluster
 
+- Check out this repository on the cluster.
 - Before starting input data generation, you might want to update your libraries by running `make update-renv` (only pik-piam packages) or `update-renv-all` (all CRAN packages). If you want to use other than the latest libraries, manually install the right versions into your renv (see section "Running with with local branches" below).
 - Take a look at the settings being used in `config/default.cfg` and make the necessary adjustments (see section "Settings" below).
 - To start input data generation, run `Rscript submit_preprocessing.R`.
