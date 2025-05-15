@@ -1,9 +1,9 @@
 # How to run on the cluster
 
-- before starting input data generation, you might want to update your libraries by running `make update-renv` (only pik-piam packages) or `update-renv-all` (all CRAN packages)
-- take a look at the settings being used in `config/default.cfg` and make the necessary adjustments (see section below)
-- to start input data generation, run `Rscript submit_preprocessing.R`
-- once the process is finished successfully, you will receive an email, the generated files can be found at `/p/projects/rd3mod/inputdata/output_1.27`
+- Before starting input data generation, you might want to update your libraries by running `make update-renv` (only pik-piam packages) or `update-renv-all` (all CRAN packages). If you want to use other than the latest libraries, manually install the right versions into your renv (see section "Running with with local branches" below).
+- Take a look at the settings being used in `config/default.cfg` and make the necessary adjustments (see section "Settings" below).
+- To start input data generation, run `Rscript submit_preprocessing.R`.
+- Once the process is finished successfully, you will receive an email, the generated files can be found at `/p/projects/rd3mod/inputdata/output_1.27`.
 
 ## Settings
 
@@ -45,7 +45,7 @@ You sometimes need to test input data generation with some unmerged changes in o
 - write the installed version to your lock file by running `renv::snapshot()`
 - exit the R session and start input data generation
 
-Once the process started, check the beginning log file for the installed libraries and make sure that the right version of your R library is being used (i.e. the dev version number you gave it when building the library).
+Once the process started, check the beginning of the log file for the installed libraries and make sure that the right version of your R library is being used (i.e. the dev version number you gave it when building the library).
 
 ## Useful tools on the cluster
 
