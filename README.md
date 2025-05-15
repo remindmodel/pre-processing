@@ -1,11 +1,27 @@
 # How to run on the cluster
 
-- before starting inputdata generation, you might want to update your libraries by running `make update-renv` (only pik-piam packages) or `update-renv-all` (all CRAN packages)
+- before starting input data generation, you might want to update your libraries by running `make update-renv` (only pik-piam packages) or `update-renv-all` (all CRAN packages)
 - take a look at the settings being used in `config/default.cfg` and make the necessary adjustments (see section below)
-- to start inputdata generation, run `Rscript submit_preprocessing.R`
+- to start input data generation, run `Rscript submit_preprocessing.R`
 - once the process is finished successfully, you will receive an email, the generated files can be found at `/p/projects/rd3mod/inputdata/output_1.27`
 
 ## Settings
+
+You most likely want to adjust `revision` to set a new revision number for your input data archive.
+Note that `cfg$revision` may not include characters other than the dot, e.g. `cfg$revision <- "6.607test"` won't work. 
+
+If you want to create input data to test your local changes, set the development suffix `cfg$dev`, e.g. `cfg$dev <- "my-test"`.
+
+The name of the generated input data archive will contain the concatenation of `revision` and `dev`. 
+
+If you want to use an existing cache folder other than the default cache folder on the cluster, you can set it using `cfg$cachefolder = "path/to/my/cache"`. 
+If this folder is empty, you effectively start from scratch with your input data generation.
+Changing the cache folder only makes sense when the cache type is set to `def` (which is the default).
+
+The process uses the default cache system (`cfg$cachetype = "def"`), which utilizes the default cache shared by most other madrat processes on the Cluster (`/p/projects/rd3mod/inputdata/cache_1.27`).
+If you want to use a separate cache folder starting from scratch for your input data revision, set `cfg$cachetype = "rev"` in your config file.
+
+### Details
 
 Currently, the following settings are supported: 
 
@@ -21,30 +37,21 @@ Currently, the following settings are supported:
 `cachefolder` sets the madrat cache folder to be used on the cluster.
 `mappinglist` contains a set of regional mappings to apply for input data generation. Check to documentation in `config/default.cfg` for more information.
 
-The process uses the default cache system (`cfg$cachetype = "def"`), which utilizes the default cache shared by most other madrat processes on the Cluster (`/p/projects/rd3mod/inputdata/cache_1.27`/).
-If you want to use a separate cache folder starting from scratch for your input data revision, set `cfg$cachetype = "rev"` in your config file.
-
-If you want to use an existing cache folder other than the default cache folder on the cluster, you can set it using `cfg$cachefolder = "path/to/my/cache"`. If this folder is empty, you effectively also start from scratch with your input data generation.
-
-If you want to test input data generation for some local changes, set the development suffix `cfg$dev`, e.g. `cfg$dev <- "my-test"`.
-The name of the generated input data archive will contain the concatenation of `revision` and `dev`. 
-Note that `cfg$revision` may not include characters other than the dot, e.g. `cfg$revision <- "6.607test"` won't work. 
-
 ## Running with with local branches
 
-You sometimes need to test inputdata generation with some unmerged changes in one or more R libraries. In order to do so:
+You sometimes need to test input data generation with some unmerged changes in one or more R libraries. In order to do so:
 - make sure that you create a development version number when building the R library you are working on (when `lucode2::buildLibrary` succeeds, choose option 4 `4: only for packages in development stage` to get a number consisting of four parts like `0.173.0.9001`)
 - do a git check out the version of the library you want to test on the cluster
 - open an R session in your pre-processing folder
 - install the R package from sources using renv `renv::install("/p/tmp/username/yourpackagefolder")`
 - write the installed version to your lock file by running `renv::snapshot()`
-- exit the R session and start inputdata generation
+- exit the R session and start input data generation
 
 Once the process started, check the beginning log file for the installed libraries and make sure that the right version of your R library is being used (i.e. the dev version number you gave it when building the library).
 
 ## Useful tools on the cluster
 
-If you need to better understand the difference between two inputdata archives, there are two tools on the cluster to help you understand which files have changed and to identify commits contributing to these changes:
+If you need to better understand the difference between two input data archives, there are two tools on the cluster to help you understand which files have changed and to identify commits contributing to these changes:
 
 - `inputdata-comparedata` - Compares the content of two data archives and looks for similarities and differences. Wrapper for `madrat::compareData`. Expects paths to two input data archives.
 - `inputdata-commithist` - List all git commits between two input data archives for selected input data libraries. Expects paths to two input data archives, the first must be the older one.
