@@ -47,7 +47,7 @@ You sometimes need to test input data generation with some unmerged changes in o
 
 Once the process started, check the beginning of the log file for the installed libraries and make sure that the right version of your R library is being used (i.e. the dev version number you gave it when building the library).
 
-## Testing only parts of input data generation
+## Testing selected parts of input data generation
 
 If you made adjustments to only a few functions in mrremind or other madrat packages that contribute to the input data (e.g. mrindustry), it might be overkill to run the entire input data generation. 
 
