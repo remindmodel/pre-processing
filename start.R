@@ -92,11 +92,18 @@ if (stoppedWithError) stop("retrieveData stopped due to an error. Search the log
 # under the name <revision><dev>.lock
 archiveFile <- paste0("rev", cfg$revision, cfg$dev, "_62eff8f7_remind.tgz")
 lockFile <- paste0("rev", cfg$revision, cfg$dev, ".lock")
-utils::untar(
+lockFileWritten <- utils::untar(
   tarfile = file.path("/p/projects/rd3mod/inputdata/output_1.27", archiveFile),
   files = "./renv.lock",
   exdir = "/p/projects/remind/inputdata/RenvLockFiles/",
   extras = paste0("--transform='flags=r;s|renv.lock|", lockFile, "|'")
 )
+
+if (lockFileWritten == 0) {
+  message("Lockfile extracted successfully.\n")
+} else {
+  warning("Failed to write lock file. Exit status was ", lockFileWritten, ".\n")
+}
+
 
 message(today, " Preprocessing done.\n\n")
