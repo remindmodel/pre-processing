@@ -53,14 +53,14 @@ stoppedWithError <- tryCatch({
                  renv = cfg$renv)
 
     # Produce historical data for regionmappings and extramappings_historic.
-    # The region hash of the historical data file will concatenated from the 
+    # The region hash of the historical data file will concatenated from the
     # individual hashes of regionmapping and extramappings_historic.
     retrieveData(model = "VALIDATIONREMIND",
                  regionmapping = mapping[["regionmapping"]],
                  extramappings = mapping[["extramappings_historic"]],
                  rev = cfg$revision, dev = cfg$dev, cachetype = cfg$cachetype,
                  renv = cfg$renv)
-  }  
+  }
   FALSE
 }, error = function(error) {
   print(error)
@@ -87,5 +87,16 @@ if (isTRUE(grepl("APT", cfg$dev))) {
 }
 
 if (stoppedWithError) stop("retrieveData stopped due to an error. Search the logfile for 'Error'")
+
+# extract renv.lock file and copy to /p/projects/remind/inputdata/RenvLockFiles
+# under the name <revision><dev>.lock
+archiveFile <- paste0("rev", cfg$revision, cfg$dev, "_62eff8f7_remind.tgz")
+lockFile <- paste0("rev", cfg$revision, cfg$dev, ".lock")
+utils::untar(
+  tarfile = file.path("/p/projects/rd3mod/inputdata/output_1.27", archiveFile),
+  files = "./renv.lock",
+  exdir = "/p/projects/remind/inputdata/RenvLockFiles/",
+  extras = paste0("--transform='flags=r;s|renv.lock|", lockFile, "|'")
+)
 
 message(today, " Preprocessing done.\n\n")
