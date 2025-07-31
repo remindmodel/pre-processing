@@ -40,9 +40,9 @@ Currently, the following settings are supported:
 
 You sometimes need to test input data generation with some unmerged changes in one or more R libraries. In order to do so:
 - make sure that you create a development version number when building the R library you are working on (when `lucode2::buildLibrary` succeeds, choose option 4 `4: only for packages in development stage` to get a number consisting of four parts like `0.173.0.9001`)
-- do a git check out the version of the library you want to test on the cluster
+- if you want to install from a local folder: do a git check out the version of the library you want to test on the cluster
 - open an R session in your pre-processing folder
-- install the R package from sources using renv `renv::install("/p/tmp/username/yourpackagefolder")`
+- install the R package from sources using renv `renv::install("/p/tmp/username/yourpackagefolder")`, alternatively you can install directly from GitHub using `renv::install(packages="<USERNAME>/<PACKAGE>")` for the default branch, or `renv::install(packages="<USERNAME>/<PACKAGE>@<BRANCH>")` for any other branch
 - exit the R session and start input data generation
 
 Once the process started, check the beginning of the log file for the installed libraries and make sure that the right version of your R library is being used (i.e. the dev version number you gave it when building the library).
@@ -78,9 +78,7 @@ calcOutput("DiffInvestCosts", round = 4, file = "p_inco0.cs4r")
 ```
 > library(magclass)
 > library(piamutils)
-> after <- read.magpie("/path/to/new/file/")
-> before <- read.magpie("/path/to/old/file/")
-> compareMagpieObject(before, after)
+> compareMagpieObject("/path/to/old/file/", "/path/to/new/file/")
 
 # Dimensions are identical (/)
 # All dimension names are identical (/)
