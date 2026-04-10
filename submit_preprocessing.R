@@ -41,7 +41,7 @@ sbatchCommand <- paste0("sbatch",
                          " --tasks-per-node=1",
                          " --output=", paste0(c(cfg$logPath, "log-`date --iso`-%j.out"), collapse = "/"),
                          " --mail-type=END,FAIL",
-                         " --mem=32000",
+                         " --mem=", cfg$memory, " ",
                   # During preprocessing we need internet access (e.g. for generating the renv).
                   # To get internet access on the compute nodes we need to set up an ssh proxy
                   # and set the necessary environment variables to use the proxy.
