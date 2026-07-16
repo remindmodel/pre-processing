@@ -4,7 +4,7 @@
 - Before starting input data generation, you might want to update your libraries by running `make update-renv` (only pik-piam packages) or `update-renv-all` (all CRAN packages). If you want to use other than the latest libraries, manually install the right versions into your renv (see section "Running with local branches" below).
 - Take a look at the settings being used in `config/default.cfg` and make the necessary adjustments (see section "Settings" below).
 - To start input data generation, run `Rscript submit_preprocessing.R`.
-- Once the process is finished successfully, you will receive an email, the generated files can be found at `/p/projects/rd3mod/inputdata/output_1.27`.
+- Once the process is finished successfully, you will receive an email, the generated files can be found at `/p/projects/rd3mod/inputdata/output`.
 
 ## Settings
 
@@ -15,7 +15,7 @@ If you want to create input data to test your local changes, set the development
 
 The name of the generated input data archive will contain the concatenation of `revision` and `dev`. 
 
-The default settings use the default cache system (`cfg$cachetype = "def"`), which utilizes the default cache shared by most other madrat processes on the cluster (`/p/projects/rd3mod/inputdata/cache_1.27`).
+The default settings use the default cache system (`cfg$cachetype = "def"`), which utilizes the default cache shared by most other madrat processes on the cluster (`/p/projects/rd3mod/inputdata/cache`).
 If you want to use an existing cache folder other than the default cache folder on the cluster, you can set it using `cfg$cachefolder = "path/to/my/cache"`. 
 If this folder is empty, you effectively start from scratch with your input data generation.
 
@@ -72,7 +72,7 @@ library(mrremind)
 calcOutput("DiffInvestCosts", round = 4, file = "p_inco0.cs4r")
 ```
 
-- If you did not change any madrat settings, this will use the caching files shared on the cluster and if nothing crashes the output file can be found in `/p/projects/rd3mod/inputdata/output_1.27`.
+- If you did not change any madrat settings, this will use the caching files shared on the cluster and if nothing crashes the output file can be found in `/p/projects/rd3mod/inputdata/output`.
 - You can compare two magpie objects using the helper `piamutils::compareMagpieObject` to see how data differs due to your changes. In order to do so, you need a cs3r/cs4r before and after your code adjustment. In your R session, use
 
 ```
