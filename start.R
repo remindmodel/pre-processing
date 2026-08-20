@@ -76,11 +76,16 @@ if (isTRUE(grepl("APT", cfg$dev))) {
   logfile <- paste0("/p/projects/rd3mod/APT/preprocessing-remind/", cfg$logPath, "/log-", today, "-", jobid, ".out")
   wordcount <- sum(grepl("WARNING|warning", readLines(logfile)))
 
-  mattermostMessage <- paste0("The remind preprocessing ",
-                              if (producedWarnings) "produced ", wordcount, " warnings",
-                              if (producedWarnings && stoppedWithError) " and ",
-                              if (stoppedWithError) "was stopped by an error",
-                              ". Please check the log file \`", logfile,"\`")
+  mattermostMessage <- paste0("The remind preprocessing produced ", wordcount, " warnings")
+
+  if (stoppedWithError) {
+    mattermostMessage <- paste0(
+      mattermostMessage,
+      " and was stopped by an error. Find the log file \`",
+      logfile, "\` here."
+    )
+  }
+
   writeLines(mattermostMessage, paste0("/p/projects/rd3mod/mattermost_bot/REMIND/APT-", today))
 }
 
