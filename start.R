@@ -69,21 +69,19 @@ stoppedWithError <- tryCatch({
 
 today <- format(Sys.time(), "%Y-%m-%d")
 
-# If this is an APT send bot message to mattermost in case the APT produced warnings or errors
+# If this is an APT send bot message to mattermost
 if (isTRUE(grepl("APT", cfg$dev))) {
   producedWarnings <- length(warnings()) > 0
   jobid <- Sys.getenv("SLURM_JOB_ID", unset = "")
   logfile <- paste0("/p/projects/rd3mod/APT/preprocessing-remind/", cfg$logPath, "/log-", today, "-", jobid, ".out")
   wordcount <- sum(grepl("WARNING|warning", readLines(logfile)))
 
-  if (stoppedWithError || producedWarnings) {
-    mattermostMessage <- paste0("The remind preprocessing ",
-                                if (producedWarnings) "produced ", wordcount, " warnings",
-                                if (producedWarnings && stoppedWithError) " and ",
-                                if (stoppedWithError) "was stopped by an error",
-                                ". Please check the log file \`", logfile,"\`")
-    writeLines(mattermostMessage, paste0("/p/projects/rd3mod/mattermost_bot/REMIND/APT-", today))
-  }
+  mattermostMessage <- paste0("The remind preprocessing ",
+                              if (producedWarnings) "produced ", wordcount, " warnings",
+                              if (producedWarnings && stoppedWithError) " and ",
+                              if (stoppedWithError) "was stopped by an error",
+                              ". Please check the log file \`", logfile,"\`")
+  writeLines(mattermostMessage, paste0("/p/projects/rd3mod/mattermost_bot/REMIND/APT-", today))
 }
 
 if (stoppedWithError) stop("retrieveData stopped due to an error. Search the logfile for 'Error'")
