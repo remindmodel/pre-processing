@@ -79,13 +79,10 @@ if (isTRUE(grepl("APT", cfg$dev))) {
   mattermostMessage <- paste0("The remind preprocessing produced ", wordcount, " warnings")
 
   if (stoppedWithError) {
-    mattermostMessage <- paste0(
-      mattermostMessage,
-      " and was stopped by an error. Find the log file \`",
-      logfile, "\` here."
-    )
+    mattermostMessage <- paste0(mattermostMessage, " and was stopped by an error") 
   }
 
+  mattermostMessage <- paste0(mattermostMessage, ". Find the log file \`", logfile, "\` here.")
   writeLines(mattermostMessage, paste0("/p/projects/rd3mod/mattermost_bot/REMIND/APT-", today))
 }
 
