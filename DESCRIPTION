@@ -10,5 +10,6 @@ BugReports: https://github.com/remindmodel/pre-processing/issues
 Depends:
     R (>= 4.0.0)
 Imports:
+    qs2,
     WDI
 Encoding: UTF-8
