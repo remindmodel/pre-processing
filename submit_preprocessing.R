@@ -45,10 +45,12 @@ sbatchCommand <- paste0("sbatch",
                   # During preprocessing we need internet access (e.g. for generating the renv).
                   # To get internet access on the compute nodes we need to set up an ssh proxy
                   # and set the necessary environment variables to use the proxy.
-                         " --wrap=\"(ssh -N -D 1080 $USER@login01 &);",
-                                   " https_proxy=socks5://127.0.0.1:1080",
-                                   " SSL_CERT_FILE=/p/projects/rd3mod/ssl/ca-bundle.pem_2022-02-08",
+                         " --wrap=\"set -e; ",
+                                   "ssh -f -N -D 1080 $USER@login01; ",
+                                   "export https_proxy=socks5://127.0.0.1:1080; ",
+                                   "export SSL_CERT_FILE=/p/projects/rd3mod/ssl/ca-bundle.pem_2022-02-08; ",
                             # run preprocessing
+                                   Sys.getenv("RSCRIPT_SLURM_HOOK", unset = ""),
                                    " Rscript start.R ", cfgFile, "\""
                         )
 message("Submitting " , sbatchCommand, " to cluster")
