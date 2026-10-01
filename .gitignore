@@ -1,2 +1,5 @@
 log-[0-9]*.out
 /renv/archive/
+
+.RData
+.Rhistory
