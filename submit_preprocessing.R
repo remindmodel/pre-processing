@@ -27,6 +27,19 @@ if (length(argv) > 0) {
 # read in configuration
 source(cfgFile)
 
+revision <- glue::glue("rev{cfg$revision}{cfg$dev}")
+outputfolder <- madrat::getConfig("outputfolder")
+existingArchives <- list.files(outputfolder, pattern = paste0(revision, ".*\\.tgz$"))
+if (length(existingArchives) > 0) {
+  archiveInfo <- file.info(file.path(outputfolder, existingArchives[1]))
+  message(glue::glue("WARNING: Archives for revision {revision} already exist in {outputfolder} ",
+    "built by {archiveInfo$uname} on {format(archiveInfo$mtime, '%Y-%m-%d %H:%M')}. ",
+    "You should probably increase the revision number.\nSubmit anyway? [y/N] "))
+  if (! gms::getLine() %in% c("y", "yes")) {
+    quit(save = "no", status = 1)
+  }
+}
+
 # create log folder if provided
 if (! is.null(cfg$logPath) && ! file.exists(cfg$logPath)) {
   message("Creating folder: ", cfg$logPath)
