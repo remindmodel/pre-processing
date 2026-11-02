@@ -27,14 +27,19 @@ if (length(argv) > 0) {
 # read in configuration
 source(cfgFile)
 
+if (grepl("_", cfg$dev, fixed = TRUE)) {
+  message("The character _ is not allowed in the development suffix.")
+  quit(save = "no", status = 1)
+}
+
 revision <- glue::glue("rev{cfg$revision}{cfg$dev}")
 outputfolder <- madrat::getConfig("outputfolder")
-existingArchives <- list.files(outputfolder, pattern = paste0(revision, ".*\\.tgz$"))
+existingArchives <- list.files(outputfolder, pattern = paste0(revision, "_.*\\.tgz$"))
 if (length(existingArchives) > 0) {
   archiveInfo <- file.info(file.path(outputfolder, existingArchives[1]))
-  message(glue::glue("WARNING: Archives for revision {revision} already exist in {outputfolder} ",
+  message(glue::glue("WARNING: (Partial) Archives for revision {revision} already exist in {outputfolder} ",
     "built by {archiveInfo$uname} on {format(archiveInfo$mtime, '%Y-%m-%d %H:%M')}. ",
-    "You should probably increase the revision number.\nSubmit anyway? [y/N] "))
+    "If this is not you restarting your own failed build you should probably increase the revision number.\nSubmit anyway? [y/N] "))
   if (! gms::getLine() %in% c("y", "yes")) {
     quit(save = "no", status = 1)
   }
