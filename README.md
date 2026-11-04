@@ -15,6 +15,8 @@ If you want to create input data to test your local changes, set the development
 
 The name of the generated input data archive will contain the concatenation of `revision` and `dev`. 
 
+If archives for the configured revision already exist, `submit_preprocessing.R` warns you and you should probably use a different development suffix or increase the revision.
+
 The default settings use the default cache system (`cfg$cachetype = "def"`), which utilizes the default cache shared by most other madrat processes on the cluster (`/p/projects/rd3mod/inputdata/cache`).
 If you want to use an existing cache folder other than the default cache folder on the cluster, you can set it using `cfg$cachefolder = "path/to/my/cache"`. 
 If this folder is empty, you effectively start from scratch with your input data generation.
