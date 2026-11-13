@@ -94,6 +94,10 @@ LAM LAM y2015 windon 2063.501 2050.927 12.5741 0.9939064
 
 ```
 
+## Building for an old renv.lock
+
+Use `make restore-renv` to restore an renv from the `renv/archive` folder (can be placed there manually, e.g. after extracting it from an old input data archive). Remember that you might also need an older version of R.
+
 
 ## Useful tools on the cluster
 
